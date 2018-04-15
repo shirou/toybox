@@ -1,0 +1,6 @@
+toybox
+#*
+*~
+*.a
+vendor
+testdata/busybox
