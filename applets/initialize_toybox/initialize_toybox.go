@@ -8,10 +8,20 @@ import (
 )
 
 var AppletBins = []string{
+	"basename",
+	"cat",
+	"chgrp",
+	"chmod",
+	"chown",
 	"echo",
-	"mv",
+	"false",
+	"initialize_toybox",
 	"ls",
 	"mkdir",
+	"mv",
+	"true",
+	"which",
+
 	"sh",
 	"shell",
 }
