@@ -14,6 +14,7 @@ var AppletBins = []string{
 	"chmod",
 	"chown",
 	"cksum",
+	"cmp",
 	"echo",
 	"false",
 	"initialize_toybox",
