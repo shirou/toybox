@@ -7,6 +7,7 @@ import (
 	"github.com/shirou/toybox/applets/chgrp"
 	"github.com/shirou/toybox/applets/chmod"
 	"github.com/shirou/toybox/applets/chown"
+	"github.com/shirou/toybox/applets/cksum"
 	"github.com/shirou/toybox/applets/echo"
 	"github.com/shirou/toybox/applets/false"
 	initialize "github.com/shirou/toybox/applets/initialize_toybox"
@@ -23,6 +24,7 @@ var Applets map[string]Applet = map[string]Applet{
 	"chgrp":             chgrp.Main,
 	"chown":             chown.Main,
 	"chmod":             chmod.Main,
+	"cksum":             cksum.Main,
 	"echo":              echo.Main,
 	"false":             false.Main,
 	"initialize_toybox": initialize.Main,

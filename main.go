@@ -7,7 +7,7 @@ import (
 )
 
 func Usage() {
-	fmt.Println("toybox")
+	fmt.Println("toybox -- A minimalistic toolbox, but just a toy")
 }
 
 func main() {

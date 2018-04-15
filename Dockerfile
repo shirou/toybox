@@ -14,7 +14,9 @@ FROM scratch
 # COPY --from=build-env /work/toybox /
 COPY toybox /
 
-RUN ["/toybox", "initialize_toybox", "-r", "/"]
+# create directories and sym links
+RUN ["/toybox", "initialize_toybox", "-s", "/"]
+# move toybox itself
 RUN ["/toybox", "mv", "/toybox", "/usr/sbin/toybox"]
 
 ENV PATH "/usr/bin:/usr/sbin"

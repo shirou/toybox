@@ -13,6 +13,7 @@ var AppletBins = []string{
 	"chgrp",
 	"chmod",
 	"chown",
+	"cksum",
 	"echo",
 	"false",
 	"initialize_toybox",
@@ -40,7 +41,7 @@ func NewFlagSet() *flag.FlagSet {
 	}
 
 	ret.BoolVar(&helpFlag, "help", false, "show this message")
-	ret.StringVar(&rootDir, "r", "/", "root")
+	ret.StringVar(&rootDir, "s", "/", "install target root")
 
 	return ret
 }
@@ -80,7 +81,7 @@ func initialize_toybox(root string) error {
 
 	toypath := filepath.Join(root, "usr", "sbin", "toybox")
 	for _, bin := range AppletBins {
-		src := filepath.Join(root, "/usr/bin", bin)
+		src := filepath.Join(root, "usr", "bin", bin)
 		if err := os.Symlink(toypath, src); err != nil {
 			if os.IsExist(err) {
 				continue
