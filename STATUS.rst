@@ -15,6 +15,7 @@ Status
 - mkdir, completed, no
 - mv, completed, no
 - true, completed, no
+- rm, completed, no
 - which, completed, no
 
 

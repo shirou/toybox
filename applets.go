@@ -15,6 +15,7 @@ import (
 	"github.com/shirou/toybox/applets/ls"
 	"github.com/shirou/toybox/applets/mkdir"
 	"github.com/shirou/toybox/applets/mv"
+	"github.com/shirou/toybox/applets/rm"
 	"github.com/shirou/toybox/applets/true"
 	"github.com/shirou/toybox/applets/which"
 )
@@ -39,6 +40,7 @@ func init() {
 		"mkdir":    mkdir.Main,
 		"mv":       mv.Main,
 		"true":     true.Main,
+		"rm":       rm.Main,
 		"which":    which.Main,
 
 		"sh":    goash.Main,
