@@ -1,34 +1,12 @@
-package initialize_toybox
+package main
 
 import (
 	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 )
-
-var AppletBins = []string{
-	"basename",
-	"cat",
-	"chgrp",
-	"chmod",
-	"chown",
-	"cksum",
-	"cmp",
-	"echo",
-	"false",
-	"initialize_toybox",
-	"ls",
-	"mkdir",
-	"mv",
-	"true",
-	"which",
-
-	"sh",
-	"shell",
-}
-
-var AppletSbins = []string{}
 
 var helpFlag bool
 var rootDir string
@@ -37,7 +15,7 @@ func NewFlagSet() *flag.FlagSet {
 	ret := flag.NewFlagSet("initialize_toybox", flag.ExitOnError)
 
 	ret.Usage = func() {
-		fmt.Printf("initialize_toybox\n")
+		fmt.Println("initialize_toybox")
 		ret.PrintDefaults()
 	}
 
@@ -47,7 +25,7 @@ func NewFlagSet() *flag.FlagSet {
 	return ret
 }
 
-func Main(args []string) error {
+func InstallMain(args []string) error {
 	flagSet := NewFlagSet()
 	flagSet.Parse(args)
 
@@ -56,10 +34,10 @@ func Main(args []string) error {
 		return nil
 	}
 
-	return initialize_toybox(rootDir)
+	return install_toybox(rootDir)
 }
 
-func initialize_toybox(root string) error {
+func install_toybox(root string) error {
 	dirs := []string{
 		"/usr/bin",
 		"/usr/sbin",
@@ -80,8 +58,17 @@ func initialize_toybox(root string) error {
 		}
 	}
 
+	bins := make([]string, 0)
+	for k, _ := range Applets {
+		if strings.Contains(k, "--") {
+			continue
+		}
+
+		bins = append(bins, k)
+	}
+
 	toypath := filepath.Join(root, "usr", "sbin", "toybox")
-	for _, bin := range AppletBins {
+	for _, bin := range bins {
 		src := filepath.Join(root, "usr", "bin", bin)
 		if err := os.Symlink(toypath, src); err != nil {
 			if os.IsExist(err) {

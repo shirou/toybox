@@ -9,6 +9,10 @@ import (
 func Usage() {
 	fmt.Println("toybox -- A minimalistic toolbox, but just a toy")
 }
+func UsageMain(_ []string) error {
+	Usage()
+	return nil
+}
 
 func main() {
 	callname := filepath.Base(os.Args[0])

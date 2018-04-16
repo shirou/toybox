@@ -11,7 +11,6 @@ import (
 	"github.com/shirou/toybox/applets/cmp"
 	"github.com/shirou/toybox/applets/echo"
 	"github.com/shirou/toybox/applets/false"
-	initialize "github.com/shirou/toybox/applets/initialize_toybox"
 	"github.com/shirou/toybox/applets/ls"
 	"github.com/shirou/toybox/applets/mkdir"
 	"github.com/shirou/toybox/applets/mv"
@@ -19,26 +18,32 @@ import (
 	"github.com/shirou/toybox/applets/which"
 )
 
-var Applets map[string]Applet = map[string]Applet{
-	"basename":          basename.Main,
-	"cat":               cat.Main,
-	"chgrp":             chgrp.Main,
-	"chown":             chown.Main,
-	"chmod":             chmod.Main,
-	"cksum":             cksum.Main,
-	"cmp":               cmp.Main,
-	"echo":              echo.Main,
-	"false":             false.Main,
-	"initialize_toybox": initialize.Main,
-	"ls":                ls.Main,
-	"mkdir":             mkdir.Main,
-	"mv":                mv.Main,
-	"true":              true.Main,
-	"which":             which.Main,
-
-	"sh":    goash.Main,
-	"ash":   goash.Main,
-	"shell": goash.Main,
-}
+var Applets map[string]Applet
 
 type Applet func([]string) error
+
+func init() {
+	Applets = map[string]Applet{
+		"basename": basename.Main,
+		"cat":      cat.Main,
+		"chgrp":    chgrp.Main,
+		"chown":    chown.Main,
+		"chmod":    chmod.Main,
+		"cksum":    cksum.Main,
+		"cmp":      cmp.Main,
+		"echo":     echo.Main,
+		"false":    false.Main,
+		"ls":       ls.Main,
+		"mkdir":    mkdir.Main,
+		"mv":       mv.Main,
+		"true":     true.Main,
+		"which":    which.Main,
+
+		"sh":    goash.Main,
+		"ash":   goash.Main,
+		"shell": goash.Main,
+
+		"--install": InstallMain,
+		"--help":    UsageMain,
+	}
+}
