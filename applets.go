@@ -9,6 +9,7 @@ import (
 	"github.com/shirou/toybox/applets/chown"
 	"github.com/shirou/toybox/applets/cksum"
 	"github.com/shirou/toybox/applets/cmp"
+	"github.com/shirou/toybox/applets/cp"
 	"github.com/shirou/toybox/applets/echo"
 	"github.com/shirou/toybox/applets/false"
 	"github.com/shirou/toybox/applets/ls"
@@ -31,6 +32,7 @@ func init() {
 		"chmod":    chmod.Main,
 		"cksum":    cksum.Main,
 		"cmp":      cmp.Main,
+		"cp":       cp.Main,
 		"echo":     echo.Main,
 		"false":    false.Main,
 		"ls":       ls.Main,
