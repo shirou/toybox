@@ -10,6 +10,7 @@ import (
 	"github.com/shirou/toybox/applets/cksum"
 	"github.com/shirou/toybox/applets/cmp"
 	"github.com/shirou/toybox/applets/cp"
+	"github.com/shirou/toybox/applets/cut"
 	"github.com/shirou/toybox/applets/echo"
 	"github.com/shirou/toybox/applets/false"
 	"github.com/shirou/toybox/applets/ls"
@@ -34,6 +35,7 @@ func init() {
 		"cksum":    cksum.Main,
 		"cmp":      cmp.Main,
 		"cp":       cp.Main,
+		"cut":      cut.Main,
 		"echo":     echo.Main,
 		"false":    false.Main,
 		"ls":       ls.Main,
