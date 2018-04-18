@@ -29,7 +29,7 @@ ick
 		w := new(bytes.Buffer)
 		r := bytes.NewBufferString(test.in)
 
-		assert.Nil(t, cut(w, r, test.opt))
+		assert.Nil(t, cut(w, r, &test.opt))
 		assert.Equal(t, test.out, w.String())
 	}
 

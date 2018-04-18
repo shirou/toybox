@@ -1,6 +1,8 @@
 Status
 ==========
 
+name, status, test
+
 - basename, completed, no
 - cat, completed, no
 - chgrp, completed, no
@@ -9,14 +11,17 @@ Status
 - cksum, bug, no
 - cmp, completed, no
 - cp, completed, no
+- cut, completed, yes
 - echo, completed, no
-- false, completed, no
+- false, completed, yes
 - ls, not yet, no
 - mkdir, completed, no
 - mv, completed, no
-- true, completed, no
+- md5sum, completed, no
+- true, completed, yes
 - rm, completed, no
 - which, completed, no
+- sleep, completed, no
 
 
 

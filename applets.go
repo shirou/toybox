@@ -14,6 +14,7 @@ import (
 	"github.com/shirou/toybox/applets/echo"
 	"github.com/shirou/toybox/applets/false"
 	"github.com/shirou/toybox/applets/ls"
+	"github.com/shirou/toybox/applets/md5sum"
 	"github.com/shirou/toybox/applets/mkdir"
 	"github.com/shirou/toybox/applets/mv"
 	"github.com/shirou/toybox/applets/rm"
@@ -42,6 +43,7 @@ func init() {
 		"ls":       ls.Main,
 		"mkdir":    mkdir.Main,
 		"mv":       mv.Main,
+		"md5sum":   md5sum.Main,
 		"true":     true.Main,
 		"sleep":    sleep.Main,
 		"rm":       rm.Main,

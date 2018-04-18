@@ -22,9 +22,7 @@ type Option struct {
 	delimiter string
 }
 
-var opt Option
-
-func NewFlagSet() *flag.FlagSet {
+func NewFlagSet() (*flag.FlagSet, *Option) {
 	ret := flag.NewFlagSet(binaryName, flag.ExitOnError)
 
 	ret.Usage = func() {
@@ -32,17 +30,19 @@ func NewFlagSet() *flag.FlagSet {
 		ret.PrintDefaults()
 	}
 
+	var opt Option
+
 	ret.BoolVar(&opt.helpFlag, "help", false, "show this message")
 	ret.StringVar(&opt.bytePos, "b", "", "Cut based on a list of bytes.")
 	ret.StringVar(&opt.charPos, "c", "", "Cut based on a list of characters.")
 	ret.StringVar(&opt.fieldPos, "f", "", "Cut based on a list of fields.")
 	ret.StringVar(&opt.delimiter, "d", "\t", "Set the field delimiter to the character delim. The default is the <tab>.")
 
-	return ret
+	return ret, &opt
 }
 
 func Main(args []string) (err error) {
-	flagSet := NewFlagSet()
+	flagSet, opt := NewFlagSet()
 	flagSet.Parse(args)
 
 	as := flagSet.Args()
@@ -72,7 +72,7 @@ func Main(args []string) (err error) {
 	return nil
 }
 
-func cut(w io.Writer, f io.Reader, opt Option) error {
+func cut(w io.Writer, f io.Reader, opt *Option) error {
 	target, r, err := parsePos(opt)
 	if err != nil {
 		return err
@@ -134,7 +134,7 @@ func buildField(line []string, r []int) []string {
 	return out
 }
 
-func parsePos(opt Option) (string, []int, error) {
+func parsePos(opt *Option) (string, []int, error) {
 	var target string
 	var s string
 
