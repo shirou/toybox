@@ -18,6 +18,9 @@ name, status, test
 - mkdir, completed, no
 - mv, completed, no
 - md5sum, completed, no
+- sha1sum, completed, no
+- sha256sum, completed, no
+- sha512sum, completed, no
 - true, completed, yes
 - rm, completed, no
 - which, completed, no

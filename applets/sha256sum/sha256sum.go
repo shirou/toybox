@@ -1,4 +1,4 @@
-package md5sum
+package sha256sum
 
 import (
 	"flag"
@@ -8,7 +8,7 @@ import (
 	"github.com/shirou/toybox/common"
 )
 
-const binaryName = "md5sum"
+const binaryName = "sha256sum"
 
 type Option struct {
 	helpFlag     bool
@@ -20,7 +20,7 @@ func NewFlagSet() (*flag.FlagSet, *Option) {
 	ret := flag.NewFlagSet(binaryName, flag.ExitOnError)
 
 	ret.Usage = func() {
-		fmt.Println("md5sum [-cs] FILE")
+		fmt.Println("sha256sum [-cs] FILE")
 		ret.PrintDefaults()
 	}
 	var opt Option
@@ -42,7 +42,7 @@ func Main(args []string) error {
 	}
 
 	if opt.compareFlag {
-		return common.CheckSumCompare("md5", os.Stdout, flagSet, opt.suppressFlag)
+		return common.CheckSumCompare("sha256", os.Stdout, flagSet, opt.suppressFlag)
 	}
-	return common.CheckSumMain("md5", os.Stdout, flagSet, opt.suppressFlag)
+	return common.CheckSumMain("sha256", os.Stdout, flagSet, opt.suppressFlag)
 }
