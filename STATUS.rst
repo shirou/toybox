@@ -4,6 +4,7 @@ Status
 name, status, test
 
 - basename, completed, no
+- base64, completed, no
 - cat, completed, no
 - chgrp, completed, no
 - chmod, completed, no
@@ -11,7 +12,7 @@ name, status, test
 - cksum, bug, no
 - cmp, completed, no
 - cp, completed, no
-- cut, completed, yes
+- cut, incompleted, yes, should arg parse manually (-f2 and so on)
 - echo, completed, no
 - false, completed, yes
 - ls, not yet, no
