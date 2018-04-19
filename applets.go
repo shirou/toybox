@@ -28,6 +28,7 @@ import (
 	"github.com/shirou/toybox/applets/sha512sum"
 	"github.com/shirou/toybox/applets/sleep"
 	"github.com/shirou/toybox/applets/true"
+	"github.com/shirou/toybox/applets/wc"
 	"github.com/shirou/toybox/applets/which"
 	"github.com/shirou/toybox/applets/yes"
 )
@@ -63,6 +64,7 @@ func init() {
 		"rm":        rm.Main,
 		"rmdir":     rmdir.Main,
 		"yes":       yes.Main,
+		"wc":        wc.Main,
 		"which":     which.Main,
 
 		"sh":    goash.Main,

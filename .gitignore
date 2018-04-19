@@ -2,5 +2,6 @@ toybox
 #*
 *~
 *.a
+dist
 vendor
 testdata/busybox
