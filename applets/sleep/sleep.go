@@ -31,21 +31,25 @@ func Main(stdout io.Writer, args []string) error {
 	flagSet := NewFlagSet()
 	flagSet.Parse(args)
 
-	if flagSet.NArg() != 1 || helpFlag {
+	if flagSet.NArg() < 1 || helpFlag {
 		flagSet.Usage()
 		return nil
 	}
 
-	return sleep(flagSet.Arg(0))
+	return sleep(flagSet.Args())
 }
 
-func sleep(timeStr string) error {
-	duration, err := parseTime(timeStr)
-	if err != nil {
-		return err
-	}
-	if duration < 0 {
-		return errors.New("numer is under 0")
+func sleep(timeStr []string) error {
+	var duration time.Duration
+	for _, s := range timeStr {
+		parsed, err := parseTime(s)
+		if err != nil {
+			return err
+		}
+		if parsed < 0 {
+			return errors.New("numer is under 0")
+		}
+		duration += parsed
 	}
 	time.Sleep(duration)
 
