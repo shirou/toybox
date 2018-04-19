@@ -1,9 +1,10 @@
+.PHONY: build
+build:
+	go build
+
 .PHONY: test
 test:
 	go test ./...
-
-build: toybox
-	go build
 
 .PHONE: release
 release:

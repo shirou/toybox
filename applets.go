@@ -21,12 +21,14 @@ import (
 	"github.com/shirou/toybox/applets/mkdir"
 	"github.com/shirou/toybox/applets/mv"
 	"github.com/shirou/toybox/applets/rm"
+	"github.com/shirou/toybox/applets/seq"
 	"github.com/shirou/toybox/applets/sha1sum"
 	"github.com/shirou/toybox/applets/sha256sum"
 	"github.com/shirou/toybox/applets/sha512sum"
 	"github.com/shirou/toybox/applets/sleep"
 	"github.com/shirou/toybox/applets/true"
 	"github.com/shirou/toybox/applets/which"
+	"github.com/shirou/toybox/applets/yes"
 )
 
 var Applets map[string]Applet
@@ -56,7 +58,9 @@ func init() {
 		"sha512sum": sha512sum.Main,
 		"true":      true.Main,
 		"sleep":     sleep.Main,
+		"seq":       seq.Main,
 		"rm":        rm.Main,
+		"yes":       yes.Main,
 		"which":     which.Main,
 
 		"sh":    goash.Main,

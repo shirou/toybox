@@ -25,7 +25,9 @@ name, status, test
 - true, completed, yes
 - rm, completed, no
 - which, completed, no
+- yes, completed, no
 - sleep, completed, no
+- seq, completed, no
 
 
 
