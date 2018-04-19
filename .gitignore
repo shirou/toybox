@@ -2,6 +2,7 @@ toybox
 #*
 *~
 *.a
+.env
 dist
 vendor
 testdata/busybox
