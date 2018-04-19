@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 )
@@ -9,7 +10,7 @@ import (
 func Usage() {
 	fmt.Println("toybox -- A minimalistic toolbox, but just a toy")
 }
-func UsageMain(_ []string) error {
+func UsageMain(_ io.Writer, _ []string) error {
 	Usage()
 	return nil
 }
@@ -32,7 +33,7 @@ func main() {
 		}
 	}
 
-	if err := applet(args); err != nil {
+	if err := applet(os.Stdout, args); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}

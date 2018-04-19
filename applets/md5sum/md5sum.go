@@ -3,7 +3,7 @@ package md5sum
 import (
 	"flag"
 	"fmt"
-	"os"
+	"io"
 
 	"github.com/shirou/toybox/common"
 )
@@ -32,7 +32,7 @@ func NewFlagSet() (*flag.FlagSet, *Option) {
 	return ret, &opt
 }
 
-func Main(args []string) error {
+func Main(stdout io.Writer, args []string) error {
 	flagSet, opt := NewFlagSet()
 	flagSet.Parse(args)
 
@@ -42,7 +42,7 @@ func Main(args []string) error {
 	}
 
 	if opt.compareFlag {
-		return common.CheckSumCompare("md5", os.Stdout, flagSet, opt.suppressFlag)
+		return common.CheckSumCompare("md5", stdout, flagSet, opt.suppressFlag)
 	}
-	return common.CheckSumMain("md5", os.Stdout, flagSet, opt.suppressFlag)
+	return common.CheckSumMain("md5", stdout, flagSet, opt.suppressFlag)
 }

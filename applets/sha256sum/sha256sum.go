@@ -3,7 +3,7 @@ package sha256sum
 import (
 	"flag"
 	"fmt"
-	"os"
+	"io"
 
 	"github.com/shirou/toybox/common"
 )
@@ -32,7 +32,7 @@ func NewFlagSet() (*flag.FlagSet, *Option) {
 	return ret, &opt
 }
 
-func Main(args []string) error {
+func Main(stdout io.Writer, args []string) error {
 	flagSet, opt := NewFlagSet()
 	flagSet.Parse(args)
 
@@ -42,7 +42,7 @@ func Main(args []string) error {
 	}
 
 	if opt.compareFlag {
-		return common.CheckSumCompare("sha256", os.Stdout, flagSet, opt.suppressFlag)
+		return common.CheckSumCompare("sha256", stdout, flagSet, opt.suppressFlag)
 	}
-	return common.CheckSumMain("sha256", os.Stdout, flagSet, opt.suppressFlag)
+	return common.CheckSumMain("sha256", stdout, flagSet, opt.suppressFlag)
 }

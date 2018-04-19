@@ -3,6 +3,7 @@ package chmod
 import (
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 
@@ -28,7 +29,7 @@ func NewFlagSet() *flag.FlagSet {
 	return ret
 }
 
-func Main(args []string) error {
+func Main(stdout io.Writer, args []string) error {
 	flagSet := NewFlagSet()
 	flagSet.Parse(args)
 

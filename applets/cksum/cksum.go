@@ -26,7 +26,7 @@ func NewFlagSet() *flag.FlagSet {
 	return ret
 }
 
-func Main(args []string) (err error) {
+func Main(stdout io.Writer, args []string) (err error) {
 	flagSet := NewFlagSet()
 	flagSet.Parse(args)
 
@@ -47,7 +47,7 @@ func Main(args []string) (err error) {
 			defer f.Close()
 		}
 
-		if err := cksum(os.Stdout, f, crc32.IEEE); err != nil {
+		if err := cksum(stdout, f, crc32.IEEE); err != nil {
 			return err
 		}
 	}

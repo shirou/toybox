@@ -26,7 +26,7 @@ func NewFlagSet() *flag.FlagSet {
 	return ret
 }
 
-func Main(args []string) error {
+func Main(stdout io.Writer, args []string) error {
 	flagSet := NewFlagSet()
 	flagSet.Parse(args)
 
@@ -35,7 +35,7 @@ func Main(args []string) error {
 		return nil
 	}
 
-	return echo(os.Stdout, flagSet.Args(), newLineFlag)
+	return echo(stdout, flagSet.Args(), newLineFlag)
 }
 
 func echo(w io.Writer, strs []string, newLineFlag bool) error {

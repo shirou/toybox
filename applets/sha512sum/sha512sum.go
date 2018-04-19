@@ -3,6 +3,7 @@ package sha512sum
 import (
 	"flag"
 	"fmt"
+	"io"
 	"os"
 
 	"github.com/shirou/toybox/common"
@@ -32,7 +33,7 @@ func NewFlagSet() (*flag.FlagSet, *Option) {
 	return ret, &opt
 }
 
-func Main(args []string) error {
+func Main(stdout io.Writer, args []string) error {
 	flagSet, opt := NewFlagSet()
 	flagSet.Parse(args)
 

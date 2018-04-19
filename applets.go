@@ -1,6 +1,8 @@
 package main
 
 import (
+	"io"
+
 	goash "github.com/shirou/goash"
 	"github.com/shirou/toybox/applets/basename"
 	"github.com/shirou/toybox/applets/cat"
@@ -28,7 +30,7 @@ import (
 
 var Applets map[string]Applet
 
-type Applet func([]string) error
+type Applet func(io.Writer, []string) error
 
 func init() {
 	Applets = map[string]Applet{

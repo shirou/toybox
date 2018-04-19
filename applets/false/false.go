@@ -1,8 +1,11 @@
 package false
 
-import "os"
+import (
+	"io"
+	"os"
+)
 
-func Main(args []string) error {
+func Main(stdout io.Writer, args []string) error {
 	os.Exit(1)
 	return nil
 }

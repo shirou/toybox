@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -25,7 +26,7 @@ func NewFlagSet() *flag.FlagSet {
 	return ret
 }
 
-func InstallMain(args []string) error {
+func InstallMain(stdout io.Writer, args []string) error {
 	flagSet := NewFlagSet()
 	flagSet.Parse(args)
 

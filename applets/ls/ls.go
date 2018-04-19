@@ -59,7 +59,7 @@ func NewFlagSet() *flag.FlagSet {
 	return ret
 }
 
-func Main(args []string) error {
+func Main(stdout io.Writer, args []string) error {
 	flagSet := NewFlagSet()
 	flagSet.Parse(args)
 
@@ -68,16 +68,16 @@ func Main(args []string) error {
 		return nil
 	}
 
-	return ls(flagSet.Args())
+	return ls(stdout, flagSet.Args())
 }
 
-func ls(paths []string) error {
+func ls(w io.Writer, paths []string) error {
 	if len(paths) == 0 {
 		paths = []string{"."}
 	}
 
 	files, _ := ioutil.ReadDir(paths[0])
-	return output(os.Stdout, files)
+	return output(w, files)
 }
 
 func output(w io.Writer, files []os.FileInfo) error {

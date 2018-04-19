@@ -2,11 +2,11 @@ package which
 
 import (
 	"fmt"
-	"os"
+	"io"
 	"os/exec"
 )
 
-func Main(args []string) error {
+func Main(stdout io.Writer, args []string) error {
 	for _, path := range args {
 		p, err := exec.LookPath(path)
 		if err != nil {
@@ -17,7 +17,7 @@ func Main(args []string) error {
 			}
 			return err
 		}
-		fmt.Fprintln(os.Stdout, p)
+		fmt.Fprintln(stdout, p)
 	}
 	return nil
 }

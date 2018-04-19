@@ -28,7 +28,7 @@ func NewFlagSet() *flag.FlagSet {
 	return ret
 }
 
-func Main(args []string) error {
+func Main(stdout io.Writer, args []string) error {
 	flagSet := NewFlagSet()
 	flagSet.Parse(args)
 
@@ -37,7 +37,7 @@ func Main(args []string) error {
 		return nil
 	}
 
-	return cat(os.Stdout, flagSet.Args())
+	return cat(stdout, flagSet.Args())
 }
 
 func cat(w io.Writer, files []string) error {

@@ -41,7 +41,7 @@ func NewFlagSet() (*flag.FlagSet, *Option) {
 	return ret, &opt
 }
 
-func Main(args []string) (err error) {
+func Main(stdout io.Writer, args []string) (err error) {
 	flagSet, opt := NewFlagSet()
 	flagSet.Parse(args)
 
@@ -54,7 +54,7 @@ func Main(args []string) (err error) {
 	var f *os.File
 	if len(as) == 0 {
 		f = os.Stdin
-		return cut(os.Stdout, f, opt)
+		return cut(stdout, f, opt)
 	}
 
 	for _, path := range flagSet.Args() {
@@ -64,7 +64,7 @@ func Main(args []string) (err error) {
 		}
 		defer f.Close()
 
-		if err := cut(os.Stdout, f, opt); err != nil {
+		if err := cut(stdout, f, opt); err != nil {
 			return err
 		}
 	}
