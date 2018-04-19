@@ -24,6 +24,7 @@ name, status, test
 - sha512sum, completed, no
 - true, completed, yes
 - rm, completed, no
+- rmdir, completed, no
 - which, completed, no
 - yes, completed, no
 - sleep, completed, no

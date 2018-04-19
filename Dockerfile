@@ -15,7 +15,7 @@ FROM scratch
 COPY toybox /
 
 # create directories and sym links
-RUN ["/toybox", "initialize_toybox", "-s", "/"]
+RUN ["/toybox", "--install", "-s", "/"]
 # move toybox itself
 RUN ["/toybox", "mv", "/toybox", "/usr/sbin/toybox"]
 

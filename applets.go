@@ -21,6 +21,7 @@ import (
 	"github.com/shirou/toybox/applets/mkdir"
 	"github.com/shirou/toybox/applets/mv"
 	"github.com/shirou/toybox/applets/rm"
+	"github.com/shirou/toybox/applets/rmdir"
 	"github.com/shirou/toybox/applets/seq"
 	"github.com/shirou/toybox/applets/sha1sum"
 	"github.com/shirou/toybox/applets/sha256sum"
@@ -60,6 +61,7 @@ func init() {
 		"sleep":     sleep.Main,
 		"seq":       seq.Main,
 		"rm":        rm.Main,
+		"rmdir":     rmdir.Main,
 		"yes":       yes.Main,
 		"which":     which.Main,
 

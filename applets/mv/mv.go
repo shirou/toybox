@@ -11,12 +11,14 @@ import (
 
 const binaryName = "mv"
 
-var helpFlag bool
-var forceFlag bool
-var interactiveFlag bool
-var notOverWriteFlag bool
+type Option struct {
+	helpFlag         bool
+	forceFlag        bool
+	interactiveFlag  bool
+	notOverWriteFlag bool
+}
 
-func NewFlagSet() *flag.FlagSet {
+func NewFlagSet() (*flag.FlagSet, *Option) {
 	ret := flag.NewFlagSet(binaryName, flag.ExitOnError)
 
 	ret.Usage = func() {
@@ -24,30 +26,32 @@ func NewFlagSet() *flag.FlagSet {
 		ret.PrintDefaults()
 	}
 
-	ret.BoolVar(&helpFlag, "help", false, "show this message")
-	ret.BoolVar(&interactiveFlag, "i", false, "Interactive, prompt before overwrite")
-	ret.BoolVar(&forceFlag, "f", false, "Don't prompt before overwriting")
-	ret.BoolVar(&notOverWriteFlag, "n", false, "Don't overwrite an existing file")
+	var opt Option
 
-	return ret
+	ret.BoolVar(&opt.helpFlag, "help", false, "show this message")
+	ret.BoolVar(&opt.interactiveFlag, "i", false, "Interactive, prompt before overwrite")
+	ret.BoolVar(&opt.forceFlag, "f", false, "Don't prompt before overwriting")
+	ret.BoolVar(&opt.notOverWriteFlag, "n", false, "Don't overwrite an existing file")
+
+	return ret, &opt
 }
 
 func Main(stdout io.Writer, args []string) error {
-	flagSet := NewFlagSet()
+	flagSet, opt := NewFlagSet()
 	flagSet.Parse(args)
 
-	if flagSet.NArg() != 2 || helpFlag {
+	if flagSet.NArg() != 2 || opt.helpFlag {
 		flagSet.Usage()
 		return nil
 	}
 
-	return mv(flagSet.Args())
+	return mv(flagSet.Args(), opt)
 }
 
-func mv(files []string) error {
+func mv(files []string, opt *Option) error {
 	src := files[0]
 	dst := files[1]
-	if !forceFlag && common.FileExists(dst) {
+	if !opt.forceFlag && common.FileExists(dst) {
 		return os.ErrExist
 	}
 
