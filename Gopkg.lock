@@ -26,10 +26,10 @@
   version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/shirou/goash"
   packages = ["."]
-  revision = "bd642d2b86b401218b3d04e496ebd62a7d18fc26"
+  revision = "27c8307a657455b6c1826f5b4fd698c1b9d67938"
+  version = "v0.0.1"
 
 [[projects]]
   name = "github.com/stretchr/testify"
@@ -41,7 +41,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "b126b21c05a91c856b027c16779c12e3bf236954"
+  revision = "a2a45943ae67364d56c5d7d62dee78cff16c8dc8"
 
 [solve-meta]
   analyzer-name = "dep"
