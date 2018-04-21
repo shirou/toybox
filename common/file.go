@@ -42,3 +42,26 @@ func IsDir(name string) (bool, error) {
 	}
 	return true, nil
 }
+
+func OpenTwoFiles(files []string) (sf *os.File, df *os.File, err error) {
+	src := os.ExpandEnv(files[0])
+	dst := os.ExpandEnv(files[1])
+
+	if src == "-" {
+		sf = os.Stdin
+	} else {
+		sf, err = os.Open(src)
+		if err != nil {
+			return nil, nil, err
+		}
+	}
+	if dst == "-" {
+		df = os.Stdin
+	} else {
+		df, err = os.Open(dst)
+		if err != nil {
+			return nil, nil, err
+		}
+	}
+	return sf, df, nil
+}

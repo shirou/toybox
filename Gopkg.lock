@@ -14,12 +14,6 @@
   version = "v1.1.0"
 
 [[projects]]
-  name = "github.com/mattn/go-shellwords"
-  packages = ["."]
-  revision = "02e3cf038dcea8290e44424da473dd12be796a8a"
-  version = "v1.0.3"
-
-[[projects]]
   name = "github.com/pmezard/go-difflib"
   packages = ["difflib"]
   revision = "792786c7400a136282c1664665ae0a8db921c6c2"
@@ -46,6 +40,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "8dba38c92b75c27b9a3dd743778c8e74cb4f5d7bcc4a4e895aac1c4a9af41771"
+  inputs-digest = "c42c87386ee9c799a676a4755f5e3356a3912a91b59742fb623713d044a8c583"
   solver-name = "gps-cdcl"
   solver-version = 1

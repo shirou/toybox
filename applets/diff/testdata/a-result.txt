@@ -1,0 +1,28 @@
+--- /tmp/a-1.txt
++++ /tmp/a-2.txt
+@@ -15,25 +15,6 @@
+ 	helpFlag bool
+ }
+ 
+-/*
+-   -a      Treat all files as text
+-   -b      Ignore changes in the amount of whitespace
+-   -B      Ignore changes whose lines are all blank
+-   -d      Try hard to find a smaller set of changes
+-   -i      Ignore case differences
+-   -L      Use LABEL instead of the filename in the unified header
+-   -N      Treat absent files as empty
+-   -q      Output only whether files differ
+-   -r      Recurse
+-   --no-dereference Don't follow symlinks
+-   -S      Start with FILE when comparing directories
+-   -T      Make tabs line up by prefixing a tab when necessary
+-   -s      Report when two files are the same
+-   -t      Expand tabs to spaces in output
+-   -U      Output LINES lines of context
+-   -w      Ignore all whitespace
+-*/
+-
+ func NewFlagSet() (*flag.FlagSet, *Option) {
+ 	ret := flag.NewFlagSet(binaryName, flag.ExitOnError)
+ 

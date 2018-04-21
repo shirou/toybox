@@ -12,7 +12,6 @@ Available commands
 see STATUS.rst
 
 
-
 Not Portable
 -----------------
 

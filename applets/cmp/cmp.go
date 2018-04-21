@@ -5,18 +5,19 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"os"
 
 	"github.com/shirou/toybox/common"
 )
 
 const binaryName = "cmp"
 
-var helpFlag bool
-var silenceFlag bool
-var linenumberFlag bool
+type Option struct {
+	helpFlag       bool
+	silenceFlag    bool
+	linenumberFlag bool
+}
 
-func NewFlagSet() *flag.FlagSet {
+func NewFlagSet() (*flag.FlagSet, *Option) {
 	ret := flag.NewFlagSet(binaryName, flag.ExitOnError)
 
 	ret.Usage = func() {
@@ -24,41 +25,35 @@ func NewFlagSet() *flag.FlagSet {
 		ret.PrintDefaults()
 	}
 
-	ret.BoolVar(&helpFlag, "help", false, "show this message")
-	ret.BoolVar(&linenumberFlag, "l", false, "Write the byte number (decimal) and the differing bytes (octal) for each difference.")
-	ret.BoolVar(&silenceFlag, "s", false, "Write nothing to standard output or standard error when files differ")
+	var opt Option
 
-	return ret
+	ret.BoolVar(&opt.helpFlag, "help", false, "show this message")
+	ret.BoolVar(&opt.linenumberFlag, "l", false, "Write the byte number (decimal) and the differing bytes (octal) for each difference.")
+	ret.BoolVar(&opt.silenceFlag, "s", false, "Write nothing to standard output or standard error when files differ")
+
+	return ret, &opt
 }
 
 func Main(stdout io.Writer, args []string) error {
-	flagSet := NewFlagSet()
+	flagSet, opt := NewFlagSet()
 	flagSet.Parse(args)
 
-	if flagSet.NArg() != 2 || helpFlag {
+	if flagSet.NArg() != 2 || opt.helpFlag {
 		flagSet.Usage()
 		return nil
 	}
 
-	return cmp(flagSet.Args(), linenumberFlag, silenceFlag)
+	return cmp(flagSet.Args(), opt.linenumberFlag, opt.silenceFlag)
 }
 
 func cmp(files []string, lf, silence bool) error {
-	src := files[0]
-	dst := files[1]
-
-	sf, err := os.Open(src)
+	sf, df, err := common.OpenTwoFiles(files)
 	if err != nil {
 		return err
 	}
 	defer sf.Close()
-	srcR := bufio.NewReaderSize(sf, 4096)
-
-	df, err := os.Open(dst)
-	if err != nil {
-		return err
-	}
 	defer df.Close()
+	srcR := bufio.NewReaderSize(sf, 4096)
 	dstR := bufio.NewReaderSize(df, 4096)
 
 	line := 0
@@ -76,7 +71,7 @@ func cmp(files []string, lf, silence bool) error {
 			if silence {
 				return nil
 			}
-			return fmt.Errorf("%s %s differ: char %d line %d\n", src, dst, c, line)
+			return fmt.Errorf("%s %s differ: char %d line %d\n", files[0], files[1], c, line)
 		}
 	}
 	return nil

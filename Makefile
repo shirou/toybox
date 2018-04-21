@@ -4,6 +4,9 @@ VERSION=0.0.1
 build:
 	go build
 
+build_strip:
+	CGO_ENABLED=0 go build -ldflags '-extldflags "-static" -s -w'
+
 .PHONY: test
 test:
 	go test ./...
@@ -11,6 +14,7 @@ test:
 init:
 	go get github.com/Songmu/goxz/cmd/goxz
 	go get github.com/tcnksm/ghr
+
 
 .PHONE: release
 release: init
@@ -22,3 +26,10 @@ release: init
 .PHONE: build_docker
 build_docker:
 	docker build -t "toybox" .
+
+upx_init:
+	curl -OL https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz
+	tar xf upx-3.94-amd64_linux.tar.xz
+
+upx: upx_init
+	upx-3.94-amd64_linux/upx -9 toybox

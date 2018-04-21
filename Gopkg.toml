@@ -24,10 +24,9 @@
 #   go-tests = true
 #   unused-packages = true
 
-
 [[constraint]]
-  name = "github.com/mattn/go-shellwords"
-  version = "1.0.3"
+  name = "github.com/pmezard/go-difflib"
+  branch = "master"
 
 [prune]
   go-tests = true
