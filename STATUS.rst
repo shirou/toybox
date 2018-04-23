@@ -3,7 +3,7 @@ Status
 
 name, status, test
 
-- HOGE, completed, no
+- arp, completed, no
 - base64, completed, no
 - cat, completed, no
 - chgrp, completed, no

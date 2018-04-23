@@ -4,6 +4,7 @@ import (
 	"io"
 
 	goash "github.com/shirou/goash"
+	"github.com/shirou/toybox/applets/arp"
 	"github.com/shirou/toybox/applets/base64"
 	"github.com/shirou/toybox/applets/basename"
 	"github.com/shirou/toybox/applets/cat"
@@ -40,6 +41,7 @@ type Applet func(io.Writer, []string) error
 
 func init() {
 	Applets = map[string]Applet{
+		"arp":       arp.Main,
 		"basename":  basename.Main,
 		"base64":    base64.Main,
 		"cat":       cat.Main,
