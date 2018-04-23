@@ -21,7 +21,7 @@ func NewFlagSet() (*flag.FlagSet, *Option) {
 	ret := flag.NewFlagSet(binaryName, flag.ExitOnError)
 
 	ret.Usage = func() {
-		fmt.Println("seq [OPTION] strings...")
+		fmt.Println("seq [OPTION] FIRST INCREMENT LAST")
 		ret.PrintDefaults()
 	}
 

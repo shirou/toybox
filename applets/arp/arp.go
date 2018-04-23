@@ -31,7 +31,7 @@ func NewFlagSet() (*flag.FlagSet, *Option) {
 	ret := flag.NewFlagSet(binaryName, flag.ExitOnError)
 
 	ret.Usage = func() {
-		fmt.Println("arp [-fin] SOURCE DEST")
+		fmt.Println("arp [-i]")
 		ret.PrintDefaults()
 	}
 

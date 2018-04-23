@@ -24,7 +24,7 @@ func NewFlagSet() (*flag.FlagSet, *Option) {
 	ret := flag.NewFlagSet(binaryName, flag.ExitOnError)
 
 	ret.Usage = func() {
-		fmt.Println("base64 -c [-d delim] list [file...]")
+		fmt.Println("base64 [OPTION] [file...]")
 		ret.PrintDefaults()
 	}
 

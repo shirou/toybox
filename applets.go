@@ -31,6 +31,7 @@ import (
 	"github.com/shirou/toybox/applets/sleep"
 	"github.com/shirou/toybox/applets/true"
 	"github.com/shirou/toybox/applets/wc"
+	"github.com/shirou/toybox/applets/wget"
 	"github.com/shirou/toybox/applets/which"
 	"github.com/shirou/toybox/applets/yes"
 )
@@ -69,6 +70,7 @@ func init() {
 		"rmdir":     rmdir.Main,
 		"yes":       yes.Main,
 		"wc":        wc.Main,
+		"wget":      wget.Main,
 		"which":     which.Main,
 
 		"sh":    goash.Main,
