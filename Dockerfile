@@ -21,5 +21,7 @@ RUN ["/toybox", "mv", "/toybox", "/usr/sbin/toybox"]
 
 ENV PATH "/usr/bin:/usr/sbin"
 
+RUN ["mkdir", "-p", "/etc/ssl/certs"]
+ADD cacert.pem /etc/ssl/certs/ca-certificates.crt
 
 CMD ["/toybox", "shell"]

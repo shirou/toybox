@@ -28,6 +28,7 @@ name, status, test
 - rmdir, completed, no
 - which, completed, no
 - wc, completed, no
+- wget, completed, no
 - yes, completed, no
 - sleep, completed, no
 - seq, completed, no
