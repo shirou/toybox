@@ -5,4 +5,5 @@ toybox
 .env
 dist
 vendor
+upx*
 testdata/busybox

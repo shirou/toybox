@@ -31,5 +31,5 @@ upx_init:
 	curl -OL https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.xz
 	tar xf upx-3.94-amd64_linux.tar.xz
 
-upx: upx_init
+build_upx: build_strip
 	upx-3.94-amd64_linux/upx -9 toybox
