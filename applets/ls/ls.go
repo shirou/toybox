@@ -6,14 +6,50 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"path/filepath"
+	"strings"
+	"time"
+
+	"github.com/shirou/toybox/common"
 )
 
 const binaryName = "ls"
 
-var helpFlag bool
-var forceFlag bool
-var interactiveFlag bool
-var notOverWriteFlag bool
+type Option struct {
+	helpFlag       bool
+	allFlag        bool
+	allExcludeFlag bool
+	followLinkFlag bool
+	xoFlag         bool
+	longFlag       bool
+	humanFlag      bool
+	oneColumnFlag  bool
+}
+
+type Directory struct {
+	path    string
+	entries []Entry `json:"entries"`
+}
+
+const (
+	TypeDirectory = "directory"
+	TypeRegular   = "regular"
+	TypeSymLink   = "symlink"
+	TypeHardLink  = "hardlink"
+	TypeNamedPipe = "namedpipe"
+)
+
+type Entry struct {
+	name        string `json:"name"`
+	mode        string `json:"mode"`
+	mode_octal  int    `json:"mode_octal"`
+	user        string `json:"user"`
+	group       string `json:"group"`
+	type_       string `json:"type"`
+	size        int64  `json:"size"`
+	modify_time int64  `json:"modify-time"`
+	modTime     time.Time
+}
 
 /*
    -1      One column output
@@ -46,7 +82,7 @@ var notOverWriteFlag bool
    --color[={always,never,auto}]   Control coloring
 */
 
-func NewFlagSet() *flag.FlagSet {
+func NewFlagSet() (*flag.FlagSet, *Option) {
 	ret := flag.NewFlagSet(binaryName, flag.ExitOnError)
 
 	ret.Usage = func() {
@@ -54,36 +90,152 @@ func NewFlagSet() *flag.FlagSet {
 		ret.PrintDefaults()
 	}
 
-	ret.BoolVar(&helpFlag, "help", false, "show this message")
+	var opt Option
+	ret.BoolVar(&opt.helpFlag, "help", false, "show this message")
+	ret.BoolVar(&opt.xoFlag, "xo", false, "output libxo compatible json format")
+	ret.BoolVar(&opt.allFlag, "a", false, "all")
+	ret.BoolVar(&opt.allExcludeFlag, "A", false, "all but exclude . and ..")
+	ret.BoolVar(&opt.followLinkFlag, "L", false, "follow symlink")
+	ret.BoolVar(&opt.longFlag, "l", false, "long")
+	ret.BoolVar(&opt.humanFlag, "h", false, "humanize")
+	ret.BoolVar(&opt.oneColumnFlag, "1", false, "one")
 
-	return ret
+	return ret, &opt
 }
 
 func Main(stdout io.Writer, args []string) error {
-	flagSet := NewFlagSet()
+	flagSet, opt := NewFlagSet()
 	flagSet.Parse(args)
 
-	if helpFlag {
+	if opt.helpFlag {
 		flagSet.Usage()
 		return nil
 	}
 
-	return ls(stdout, flagSet.Args())
+	return ls(stdout, flagSet.Args(), opt)
 }
 
-func ls(w io.Writer, paths []string) error {
+func ls(w io.Writer, paths []string, opt *Option) error {
+	dirs, err := gather(paths, opt)
+	if err != nil {
+		return err
+	}
+
+	return output(w, dirs, opt)
+}
+
+func gather(paths []string, opt *Option) ([]Directory, error) {
 	if len(paths) == 0 {
 		paths = []string{"."}
 	}
 
-	files, _ := ioutil.ReadDir(paths[0])
-	return output(w, files)
+	ret := make([]Directory, 0)
+	for _, path := range paths {
+		cur, err := os.Lstat(filepath.Join(path, "."))
+		if err != nil {
+			return nil, err
+		}
+		files := []os.FileInfo{cur}
+		if path != "/" {
+			par, err := os.Lstat(filepath.Join(path, ".."))
+			if err != nil {
+				return nil, err
+			}
+			files = append(files, par)
+		}
+
+		ff, err := ioutil.ReadDir(path)
+		if err != nil {
+			return nil, err
+		}
+		files = append(files, ff...)
+
+		dir := Directory{
+			path:    path,
+			entries: make([]Entry, 0, len(files)),
+		}
+		for _, fi := range files {
+			if skip(fi, opt) {
+				continue
+			}
+
+			var type_ string
+			mode := fi.Mode()
+			if fi.IsDir() {
+				type_ = TypeDirectory
+			} else if mode&os.ModeSymlink != 0 {
+				type_ = TypeSymLink
+				if opt.followLinkFlag {
+					fi, err = followLink(path, fi)
+					if err != nil {
+						return nil, err
+					}
+					mode = fi.Mode()
+
+				}
+			} else if mode&os.ModeNamedPipe != 0 {
+				type_ = TypeNamedPipe
+			}
+
+			e := Entry{
+				name:        fi.Name(),
+				mode:        mode.String(),
+				size:        fi.Size(),
+				type_:       type_,
+				modify_time: fi.ModTime().Unix(),
+				modTime:     fi.ModTime(),
+			}
+			dir.entries = append(dir.entries, e)
+		}
+		ret = append(ret, dir)
+	}
+
+	return ret, nil
 }
 
-func output(w io.Writer, files []os.FileInfo) error {
-	for _, f := range files {
-		fmt.Fprintln(w, f.Name())
+const longFormat = "%10s %10d %s %s\n"
+const longHumanFormat = "%10s %10s %s %s\n"
+const longTimeFormat = "Jan 2 15:04"
+
+func output(w io.Writer, dirs []Directory, opt *Option) error {
+	for _, dir := range dirs {
+		for _, entry := range dir.entries {
+			if opt.longFlag && !opt.humanFlag {
+				fmt.Fprintf(w, longFormat, entry.mode, entry.size,
+					entry.modTime.Format(longTimeFormat), entry.name)
+			} else if opt.longFlag && opt.humanFlag {
+				fmt.Fprintf(w, longHumanFormat, entry.mode,
+					common.Bytes(uint64(entry.size)),
+					entry.modTime.Format(longTimeFormat), entry.name)
+			} else {
+				fmt.Fprintln(w, entry.name)
+			}
+		}
 	}
 
 	return nil
+}
+
+func skip(fi os.FileInfo, opt *Option) bool {
+	if strings.HasPrefix(fi.Name(), ".") {
+		if opt.allFlag {
+			return false
+		}
+		if opt.allExcludeFlag {
+			if fi.Name() == "." || fi.Name() == ".." {
+				return true
+			}
+			return false
+		}
+		return true
+	}
+	return false
+}
+
+func followLink(dir string, fi os.FileInfo) (os.FileInfo, error) {
+	path, err := os.Readlink(filepath.Join(dir, fi.Name()))
+	if err != nil {
+		return nil, err
+	}
+	return os.Lstat(path)
 }
