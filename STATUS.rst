@@ -13,6 +13,7 @@ name, status, test
 - cmp, completed, no
 - cp, completed, no
 - cut, incompleted, yes, should arg parse manually (-f2 and so on)
+- date, incompleted, yes, + format is not implemented.
 - diff, incompleted, yes, diff algorithm is different from actual perhaps
 - echo, completed, no
 - false, completed, yes

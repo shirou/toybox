@@ -15,6 +15,7 @@ import (
 	"github.com/shirou/toybox/applets/cmp"
 	"github.com/shirou/toybox/applets/cp"
 	"github.com/shirou/toybox/applets/cut"
+	"github.com/shirou/toybox/applets/date"
 	"github.com/shirou/toybox/applets/df"
 	"github.com/shirou/toybox/applets/diff"
 	"github.com/shirou/toybox/applets/echo"
@@ -54,6 +55,7 @@ func init() {
 		"cmp":       cmp.Main,
 		"cp":        cp.Main,
 		"cut":       cut.Main,
+		"date":      date.Main,
 		"df":        df.Main,
 		"diff":      diff.Main,
 		"echo":      echo.Main,
