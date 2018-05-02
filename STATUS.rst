@@ -15,6 +15,7 @@ name, status, test
 - cut, incompleted, yes, should arg parse manually (-f2 and so on)
 - date, incompleted, yes, + format is not implemented.
 - diff, incompleted, yes, diff algorithm is different from actual perhaps
+- dirname, completed, yes
 - echo, completed, no
 - false, completed, yes
 - ls, not yet, no

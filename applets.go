@@ -18,6 +18,7 @@ import (
 	"github.com/shirou/toybox/applets/date"
 	"github.com/shirou/toybox/applets/df"
 	"github.com/shirou/toybox/applets/diff"
+	"github.com/shirou/toybox/applets/dirname"
 	"github.com/shirou/toybox/applets/echo"
 	"github.com/shirou/toybox/applets/false"
 	"github.com/shirou/toybox/applets/ls"
@@ -57,6 +58,7 @@ func init() {
 		"cut":       cut.Main,
 		"date":      date.Main,
 		"df":        df.Main,
+		"dirname":   dirname.Main,
 		"diff":      diff.Main,
 		"echo":      echo.Main,
 		"false":     false.Main,
