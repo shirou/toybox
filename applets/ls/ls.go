@@ -9,8 +9,6 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
-
-	"github.com/shirou/toybox/common"
 )
 
 const binaryName = "ls"
@@ -45,6 +43,8 @@ type Entry struct {
 	mode_octal  int    `json:"mode_octal"`
 	user        string `json:"user"`
 	group       string `json:"group"`
+	uid         uint32 `json:"uid"`
+	gid         uint32 `json:"gid"`
 	type_       string `json:"type"`
 	size        int64  `json:"size"`
 	modify_time int64  `json:"modify-time"`
@@ -185,35 +185,15 @@ func gather(paths []string, opt *Option) ([]Directory, error) {
 				modify_time: fi.ModTime().Unix(),
 				modTime:     fi.ModTime(),
 			}
+
+			addUser(&e)
+
 			dir.entries = append(dir.entries, e)
 		}
 		ret = append(ret, dir)
 	}
 
 	return ret, nil
-}
-
-const longFormat = "%10s %10d %s %s\n"
-const longHumanFormat = "%10s %10s %s %s\n"
-const longTimeFormat = "Jan 2 15:04"
-
-func output(w io.Writer, dirs []Directory, opt *Option) error {
-	for _, dir := range dirs {
-		for _, entry := range dir.entries {
-			if opt.longFlag && !opt.humanFlag {
-				fmt.Fprintf(w, longFormat, entry.mode, entry.size,
-					entry.modTime.Format(longTimeFormat), entry.name)
-			} else if opt.longFlag && opt.humanFlag {
-				fmt.Fprintf(w, longHumanFormat, entry.mode,
-					common.Bytes(uint64(entry.size)),
-					entry.modTime.Format(longTimeFormat), entry.name)
-			} else {
-				fmt.Fprintln(w, entry.name)
-			}
-		}
-	}
-
-	return nil
 }
 
 func skip(fi os.FileInfo, opt *Option) bool {
