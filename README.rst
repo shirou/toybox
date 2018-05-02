@@ -9,7 +9,7 @@ currently, only suports linux.
 Available commands
 ===================
 
-.. csv-table:: Frozen Delights!
+.. csv-table:: Status
    :header: "Command Name", "Status", "Test", "Desc"
 
    arp, completed, no
@@ -28,6 +28,7 @@ Available commands
    echo, completed, no
    false, completed, yes
    ls, not yet, no
+   ln, completed, no
    mkdir, completed, no
    mv, completed, no
    md5sum, completed, no

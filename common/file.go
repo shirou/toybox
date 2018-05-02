@@ -10,7 +10,14 @@ const fileModeRegex = `[ugoa]*([-+=]([rwxXst]*|[ugo]))+|[-+=][0-7]+`
 
 func FileExists(path string) bool {
 	_, err := os.Stat(path)
-	if err != nil && os.IsExist(err) {
+	if err == nil {
+		return true
+	}
+	return false
+}
+
+func FileNotExists(path string) bool {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
 		return true
 	}
 	return false
@@ -64,4 +71,10 @@ func OpenTwoFiles(files []string) (sf *os.File, df *os.File, err error) {
 		}
 	}
 	return sf, df, nil
+}
+
+const BackupSuffix = "~"
+
+func Backup(path string) error {
+	return os.Rename(path, path+BackupSuffix)
 }
