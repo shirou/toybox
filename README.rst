@@ -28,6 +28,7 @@ Available commands
    dirname, completed, yes
    echo, completed, no
    false, completed, yes
+   head, completed, yes
    ls, not yet, no
    ln, completed, no
    mkdir, completed, no
