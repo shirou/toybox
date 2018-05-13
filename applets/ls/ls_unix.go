@@ -18,19 +18,19 @@ const longTimeFormat = "Jan _2 15:04"
 
 func output(w io.Writer, dirs []Directory, opt *Option) error {
 	for _, dir := range dirs {
-		for _, entry := range dir.entries {
+		for _, entry := range dir.Entries {
 			if opt.longFlag && !opt.humanFlag {
-				fmt.Fprintf(w, longFormat, entry.mode,
-					entry.user, entry.group,
-					entry.size,
-					entry.modTime.Format(longTimeFormat), entry.name)
+				fmt.Fprintf(w, longFormat, entry.Mode,
+					entry.User, entry.Group,
+					entry.Size,
+					entry.ModTime.Format(longTimeFormat), entry.Name)
 			} else if opt.longFlag && opt.humanFlag {
-				fmt.Fprintf(w, longHumanFormat, entry.mode,
-					entry.user, entry.group,
-					common.Bytes(uint64(entry.size)),
-					entry.modTime.Format(longTimeFormat), entry.name)
+				fmt.Fprintf(w, longHumanFormat, entry.Mode,
+					entry.User, entry.Group,
+					common.Bytes(uint64(entry.Size)),
+					entry.ModTime.Format(longTimeFormat), entry.Name)
 			} else {
-				fmt.Fprintln(w, entry.name)
+				fmt.Fprintln(w, entry.Name)
 			}
 		}
 	}
@@ -43,11 +43,11 @@ var gidCache = make(map[uint32]string)
 
 func addUser(entry *Entry) {
 	var st syscall.Stat_t
-	if err := syscall.Stat(entry.name, &st); err != nil {
+	if err := syscall.Stat(entry.Name, &st); err != nil {
 		return
 	}
-	entry.uid = st.Uid
-	entry.gid = st.Gid
+	entry.Uid = st.Uid
+	entry.Gid = st.Gid
 
 	uname, ok := uidCache[st.Uid]
 	if !ok {
@@ -57,7 +57,7 @@ func addUser(entry *Entry) {
 		}
 		uname = u.Name
 	}
-	entry.user = uname
+	entry.User = uname
 
 	group, ok := gidCache[st.Gid]
 	if !ok {
@@ -67,5 +67,5 @@ func addUser(entry *Entry) {
 		}
 		group = g.Name
 	}
-	entry.group = group
+	entry.Group = group
 }

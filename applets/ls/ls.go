@@ -26,7 +26,7 @@ type Option struct {
 
 type Directory struct {
 	path    string
-	entries []Entry `json:"entries"`
+	Entries []Entry `json:"entries"`
 }
 
 const (
@@ -38,17 +38,17 @@ const (
 )
 
 type Entry struct {
-	name        string `json:"name"`
-	mode        string `json:"mode"`
-	mode_octal  int    `json:"mode_octal"`
-	user        string `json:"user"`
-	group       string `json:"group"`
-	uid         uint32 `json:"uid"`
-	gid         uint32 `json:"gid"`
-	type_       string `json:"type"`
-	size        int64  `json:"size"`
-	modify_time int64  `json:"modify-time"`
-	modTime     time.Time
+	Name       string `json:"name"`
+	Mode       string `json:"mode"`
+	ModeOctal  int    `json:"mode_octal"`
+	User       string `json:"user"`
+	Group      string `json:"group"`
+	Uid        uint32 `json:"uid"`
+	Gid        uint32 `json:"gid"`
+	Type       string `json:"type"`
+	Size       int64  `json:"size"`
+	ModifyTime int64  `json:"modify-time"`
+	ModTime    time.Time
 }
 
 /*
@@ -152,7 +152,7 @@ func gather(paths []string, opt *Option) ([]Directory, error) {
 
 		dir := Directory{
 			path:    path,
-			entries: make([]Entry, 0, len(files)),
+			Entries: make([]Entry, 0, len(files)),
 		}
 		for _, fi := range files {
 			if skip(fi, opt) {
@@ -178,17 +178,17 @@ func gather(paths []string, opt *Option) ([]Directory, error) {
 			}
 
 			e := Entry{
-				name:        fi.Name(),
-				mode:        mode.String(),
-				size:        fi.Size(),
-				type_:       type_,
-				modify_time: fi.ModTime().Unix(),
-				modTime:     fi.ModTime(),
+				Name:       fi.Name(),
+				Mode:       mode.String(),
+				Size:       fi.Size(),
+				Type:       type_,
+				ModifyTime: fi.ModTime().Unix(),
+				ModTime:    fi.ModTime(),
 			}
 
 			addUser(&e)
 
-			dir.entries = append(dir.entries, e)
+			dir.Entries = append(dir.Entries, e)
 		}
 		ret = append(ret, dir)
 	}

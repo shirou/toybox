@@ -131,7 +131,7 @@ func getOutputFile(urlStr string, opt *Option) (io.WriteCloser, error) {
 }
 
 func showServerResponse(w io.Writer, resp *http.Response) {
-	fmt.Fprintf(w, "%s %s\n", resp.Proto, resp.StatusCode)
+	fmt.Fprintf(w, "%s %d\n", resp.Proto, resp.StatusCode)
 
 	for key, v := range resp.Header {
 		fmt.Fprintf(w, "%s: %s\n", key, v)
