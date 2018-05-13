@@ -19,6 +19,7 @@ import (
 	"github.com/shirou/toybox/applets/df"
 	"github.com/shirou/toybox/applets/diff"
 	"github.com/shirou/toybox/applets/dirname"
+	"github.com/shirou/toybox/applets/du"
 	"github.com/shirou/toybox/applets/echo"
 	"github.com/shirou/toybox/applets/false"
 	"github.com/shirou/toybox/applets/ln"
@@ -61,6 +62,7 @@ func init() {
 		"df":        df.Main,
 		"dirname":   dirname.Main,
 		"diff":      diff.Main,
+		"du":        du.Main,
 		"echo":      echo.Main,
 		"false":     false.Main,
 		"ls":        ls.Main,

@@ -2,7 +2,9 @@ package common
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strconv"
 )
 
@@ -39,8 +41,23 @@ func IsMalformedFileMode(mode os.FileMode) bool {
 	return mode != os.ModePerm
 }
 
+func IsSymlink(info os.FileInfo) bool {
+	return info.Mode()&os.ModeSymlink == os.ModeSymlink
+}
+
+func IsNamedPipe(info os.FileInfo) bool {
+	return info.Mode()&os.ModeNamedPipe == os.ModeNamedPipe
+}
+
+func IsHidden(name string) bool {
+	if name == "." || name == ".." {
+		return false
+	}
+	return len(name) > 1 && name[0] == '.'
+}
+
 func IsDir(name string) (bool, error) {
-	fi, err := os.Stat(name)
+	fi, err := os.Lstat(name)
 	if err != nil {
 		return false, err
 	}
@@ -77,4 +94,51 @@ const BackupSuffix = "~"
 
 func Backup(path string) error {
 	return os.Rename(path, path+BackupSuffix)
+}
+
+// see https://github.com/monochromegane/go-gitignore/
+
+type IgnoreMatcher interface {
+	Match(path string, isDir bool) bool
+}
+
+type IgnoreMatchers []IgnoreMatcher
+
+func (im IgnoreMatchers) Match(path string, isDir bool) bool {
+	for _, ig := range im {
+		if ig == nil {
+			return false
+		}
+		if ig.Match(path, isDir) {
+			return true
+		}
+	}
+	return false
+}
+
+type walkFunc func(path string, info os.FileInfo, depth int, ignores IgnoreMatchers) (IgnoreMatchers, error)
+
+func Walk(path string, info os.FileInfo, depth int, parentIgnores IgnoreMatchers, followed bool, walkFn walkFunc) error {
+	ignores, walkError := walkFn(path, info, depth, parentIgnores)
+	if walkError != nil {
+		if info.IsDir() && walkError == filepath.SkipDir {
+			return nil
+		}
+		return walkError
+	}
+
+	if !info.IsDir() {
+		return nil
+	}
+
+	files, err := ioutil.ReadDir(path)
+	if err != nil {
+		return err
+	}
+
+	depth++
+	for _, file := range files {
+		Walk(filepath.Join(path, file.Name()), file, depth, ignores, followed, walkFn)
+	}
+	return nil
 }

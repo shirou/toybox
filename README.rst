@@ -24,6 +24,7 @@ Available commands
    cut, not yet, yes, should arg parse manually (-f2 and so on)
    date, not yet, yes, `+` format is not implemented.
    diff, not yet, yes, diff algorithm is different from actual perhaps
+   du, bug, yes, `-s` not work. size is incorrect(block size matter)
    dirname, completed, yes
    echo, completed, no
    false, completed, yes
