@@ -36,6 +36,7 @@ import (
 	"github.com/shirou/toybox/applets/sha512sum"
 	"github.com/shirou/toybox/applets/sleep"
 	"github.com/shirou/toybox/applets/true"
+	"github.com/shirou/toybox/applets/uniq"
 	"github.com/shirou/toybox/applets/wc"
 	"github.com/shirou/toybox/applets/wget"
 	"github.com/shirou/toybox/applets/which"
@@ -75,9 +76,10 @@ func init() {
 		"sha1sum":   sha1sum.Main,
 		"sha256sum": sha256sum.Main,
 		"sha512sum": sha512sum.Main,
-		"true":      true.Main,
 		"sleep":     sleep.Main,
 		"seq":       seq.Main,
+		"true":      true.Main,
+		"uniq":      uniq.Main,
 		"rm":        rm.Main,
 		"rmdir":     rmdir.Main,
 		"yes":       yes.Main,

@@ -38,6 +38,7 @@ Available commands
    sha256sum, completed, no
    sha512sum, completed, no
    true, completed, yes
+   uniq, not yet, no, `-c` is not implemented yet
    rm, completed, no
    rmdir, completed, no
    which, completed, no
@@ -46,6 +47,19 @@ Available commands
    yes, completed, no
    sleep, completed, no
    seq, completed, no
+
+
+higher priority
+----------------
+
+- tr
+- split
+- sort
+- uniq
+- paste
+- join
+- grep
+
 
 Not Portable
 -----------------
