@@ -12,10 +12,10 @@ import (
 const binaryName = "mv"
 
 type Option struct {
-	helpFlag         bool
-	forceFlag        bool
-	interactiveFlag  bool
-	notOverWriteFlag bool
+	help         bool
+	force        bool
+	interactive  bool
+	notOverWrite bool
 }
 
 func NewFlagSet() (*flag.FlagSet, *Option) {
@@ -28,10 +28,10 @@ func NewFlagSet() (*flag.FlagSet, *Option) {
 
 	var opt Option
 
-	ret.BoolVar(&opt.helpFlag, "help", false, "show this message")
-	ret.BoolVar(&opt.interactiveFlag, "i", false, "Interactive, prompt before overwrite")
-	ret.BoolVar(&opt.forceFlag, "f", false, "Don't prompt before overwriting")
-	ret.BoolVar(&opt.notOverWriteFlag, "n", false, "Don't overwrite an existing file")
+	ret.BoolVar(&opt.help, "help", false, "show this message")
+	ret.BoolVar(&opt.interactive, "i", false, "Interactive, prompt before overwrite")
+	ret.BoolVar(&opt.force, "f", false, "Don't prompt before overwriting")
+	ret.BoolVar(&opt.notOverWrite, "n", false, "Don't overwrite an existing file")
 
 	return ret, &opt
 }
@@ -40,18 +40,18 @@ func Main(stdout io.Writer, args []string) error {
 	flagSet, opt := NewFlagSet()
 	flagSet.Parse(args)
 
-	if flagSet.NArg() != 2 || opt.helpFlag {
+	if flagSet.NArg() != 2 || opt.help {
 		flagSet.Usage()
 		return nil
 	}
 
-	return mv(flagSet.Args(), opt)
+	return mv(stdout, flagSet.Args(), opt)
 }
 
-func mv(files []string, opt *Option) error {
+func mv(w io.Writer, files []string, opt *Option) error {
 	src := files[0]
 	dst := files[1]
-	if !opt.forceFlag && common.FileExists(dst) {
+	if !opt.force && common.FileExists(dst) {
 		return os.ErrExist
 	}
 
