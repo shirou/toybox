@@ -47,16 +47,15 @@ Available commands
    yes, completed, no
    sleep, completed, no
    seq, completed, no
+   tr, completed, yes
    uuidgen, completed, yes
 
 
 higher priority
 ----------------
 
-- tr
 - split
 - sort
-- uniq
 - paste
 - join
 - grep
