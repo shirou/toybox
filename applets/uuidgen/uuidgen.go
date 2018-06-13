@@ -31,7 +31,7 @@ func Main(stdout io.Writer, args []string) error {
 	flagSet, opt := NewFlagSet()
 	flagSet.Parse(args)
 
-	if flagSet.NArg() != 2 || opt.help {
+	if opt.help {
 		flagSet.Usage()
 		return nil
 	}

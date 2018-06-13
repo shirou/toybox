@@ -18,6 +18,6 @@ func uuidgen(w io.Writer) error {
 	if err != nil {
 		return err
 	}
-	fmt.Fprint(w, string(line))
+	fmt.Fprintln(w, string(line))
 	return nil
 }

@@ -25,6 +25,6 @@ func uuidgen(w io.Writer) error {
 			return nil
 		}
 	}
-	fmt.Fprint(w, string(uuid[:]))
+	fmt.Fprintln(w, string(uuid[:]))
 	return nil
 }
