@@ -14,5 +14,5 @@ func TestTr(t *testing.T) {
 	fmt.Fprint(r, "111")
 
 	tr(w, r, "1", "22")
-	assert.Equal(t, "222222", w.String())
+	assert.Equal(t, "222222\n", w.String())
 }

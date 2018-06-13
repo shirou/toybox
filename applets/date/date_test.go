@@ -24,14 +24,14 @@ func TestRFC3339(t *testing.T) {
 		opt *Option
 		out string
 	}{
-		{&Option{rfc3339Flag: "date"}, "2018-01-01"},
-		{&Option{rfc3339Flag: "seconds"}, "2018-01-01 12:34:56Z"},
-		{&Option{rfc3339Flag: "ns"}, "2018-01-01 12:34:56Z"},
-		{&Option{iso8601Flag: "date"}, "2018-01-01"},
-		{&Option{iso8601Flag: "hours"}, "2018-01-01T12Z"},
-		{&Option{iso8601Flag: "minutes"}, "2018-01-01T12:34Z"},
-		{&Option{iso8601Flag: "seconds"}, "2018-01-01T12:34:56Z"},
-		{&Option{iso8601Flag: "ns"}, "2018-01-01T12:34:56Z"},
+		{&Option{rfc3339Flag: "date"}, "2018-01-01\n"},
+		{&Option{rfc3339Flag: "seconds"}, "2018-01-01 12:34:56Z\n"},
+		{&Option{rfc3339Flag: "ns"}, "2018-01-01 12:34:56Z\n"},
+		{&Option{iso8601Flag: "date"}, "2018-01-01\n"},
+		{&Option{iso8601Flag: "hours"}, "2018-01-01T12Z\n"},
+		{&Option{iso8601Flag: "minutes"}, "2018-01-01T12:34Z\n"},
+		{&Option{iso8601Flag: "seconds"}, "2018-01-01T12:34:56Z\n"},
+		{&Option{iso8601Flag: "ns"}, "2018-01-01T12:34:56Z\n"},
 	}
 
 	ti, _ := time.Parse(time.RFC3339, "2018-01-01T12:34:56Z")

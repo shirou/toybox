@@ -15,7 +15,7 @@ import (
 const binaryName = "cut"
 
 type Option struct {
-	helpFlag  bool
+	help      bool
 	bytePos   string
 	charPos   string
 	fieldPos  string
@@ -32,7 +32,7 @@ func NewFlagSet() (*flag.FlagSet, *Option) {
 
 	var opt Option
 
-	ret.BoolVar(&opt.helpFlag, "help", false, "show this message")
+	ret.BoolVar(&opt.help, "help", false, "show this message")
 	ret.StringVar(&opt.bytePos, "b", "", "Cut based on a list of bytes.")
 	ret.StringVar(&opt.charPos, "c", "", "Cut based on a list of characters.")
 	ret.StringVar(&opt.fieldPos, "f", "", "Cut based on a list of fields.")
@@ -46,7 +46,7 @@ func Main(stdout io.Writer, args []string) (err error) {
 	flagSet.Parse(args)
 
 	as := flagSet.Args()
-	if opt.helpFlag {
+	if opt.help {
 		flagSet.Usage()
 		return nil
 	}
