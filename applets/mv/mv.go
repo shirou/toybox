@@ -25,7 +25,6 @@ func NewFlagSet() (*flag.FlagSet, *Option) {
 		fmt.Println("mv [-fin] SOURCE DEST")
 		ret.PrintDefaults()
 	}
-
 	var opt Option
 
 	ret.BoolVar(&opt.help, "help", false, "show this message")
