@@ -10,7 +10,7 @@ import (
 
 func TestUniq(t *testing.T) {
 	opt := &Option{
-		duplicate: true,
+		repeated: true,
 	}
 
 	w := new(bytes.Buffer)

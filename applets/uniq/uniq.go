@@ -81,7 +81,7 @@ func Main(stdout io.Writer, args []string) error {
 
 func uniq(in io.Reader, out io.Writer, opt *Option) error {
 	s := bufio.NewScanner(in)
-	//	var count int
+	var count int
 	var dup bool
 
 	// read first line as last line
@@ -96,13 +96,23 @@ func uniq(in io.Reader, out io.Writer, opt *Option) error {
 		}
 		if dup {
 			if opt.repeated {
-				fmt.Fprintln(out, last)
+				if opt.count {
+					fmt.Fprintf(out, "%-10d %s\n", count, last)
+				} else {
+					fmt.Fprintln(out, last)
+				}
 			}
 		} else {
 			if opt.unique {
-				fmt.Fprintln(out, last)
+				if opt.count {
+					fmt.Fprintf(out, "%-10d %s\n", count, last)
+				} else {
+					fmt.Fprintln(out, last)
+				}
 			}
+			count = 0
 		}
+		count += 1
 		last = s.Text()
 	}
 
