@@ -37,6 +37,7 @@ import (
 	"github.com/shirou/toybox/applets/sleep"
 	"github.com/shirou/toybox/applets/true"
 	"github.com/shirou/toybox/applets/uniq"
+	"github.com/shirou/toybox/applets/uuidgen"
 	"github.com/shirou/toybox/applets/wc"
 	"github.com/shirou/toybox/applets/wget"
 	"github.com/shirou/toybox/applets/which"
@@ -80,6 +81,7 @@ func init() {
 		"seq":       seq.Main,
 		"true":      true.Main,
 		"uniq":      uniq.Main,
+		"uuidgen":   uuidgen.Main,
 		"rm":        rm.Main,
 		"rmdir":     rmdir.Main,
 		"yes":       yes.Main,

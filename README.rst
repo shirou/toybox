@@ -47,6 +47,7 @@ Available commands
    yes, completed, no
    sleep, completed, no
    seq, completed, no
+   uuidgen, completed, yes
 
 
 higher priority
