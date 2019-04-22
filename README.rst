@@ -14,7 +14,7 @@ With Go Modules - Go 1.11 or higher
 
 Recipe::
 
-    git clone https://github.com/shirou/toybox
+    git clone https://github.com/shirou/toybox ;# clone outside of GOPATH
     cd toybox
     go install
 
