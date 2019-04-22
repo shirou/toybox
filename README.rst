@@ -6,15 +6,18 @@ A minimalist toolbox. (Respect busybox)
 
 currently, only suports linux.
 
-# Install
+Install
+=======
 
-## With Go Modules - Go 1.11 or higher
+With Go Modules - Go 1.11 or higher
+-----------------------------------
 
     git clone https://github.com/shirou/toybox
     cd toybox
     go install
 
-## Without Go Modules - Before Go 1.11
+Without Go Modules - Before Go 1.11
+-----------------------------------
 
     go get github.com/shirou/toybox
 
