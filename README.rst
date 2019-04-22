@@ -12,12 +12,16 @@ Install
 With Go Modules - Go 1.11 or higher
 -----------------------------------
 
+Recipe::
+
     git clone https://github.com/shirou/toybox
     cd toybox
     go install
 
 Without Go Modules - Before Go 1.11
 -----------------------------------
+
+Recipe::
 
     go get github.com/shirou/toybox
 
