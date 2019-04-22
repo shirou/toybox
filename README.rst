@@ -25,7 +25,7 @@ Recipe::
 
     go get github.com/shirou/toybox
 
-`go get` can also be used with Modules, but it will get you only an immutable copy of the source code.
+**go get** can also be used with Modules, but it will get you only an immutable copy of the source code.
 
 Available commands
 ===================
