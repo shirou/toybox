@@ -1,18 +1,19 @@
-#  # build env
-#  # ---
-#  FROM golang:alpine AS build-env
-#  RUN apk add --update git
-#
-#  ADD . /work
-#  WORKDIR /work
-#  RUN make release
-#
-#
+# build env
+#----
+FROM golang:alpine AS build-env
+
+RUN apk add --update git make
+
+ADD . /work
+WORKDIR /work
+RUN make build_strip
+
 # toybox
+#----
 FROM scratch
 
 # COPY --from=build-env /work/toybox /
-COPY toybox /
+COPY --from=build-env /work/toybox /
 
 # create directories and sym links
 RUN ["/toybox", "--install", "-s", "/"]
@@ -24,4 +25,4 @@ ENV PATH "/usr/bin:/usr/sbin"
 RUN ["mkdir", "-p", "/etc/ssl/certs"]
 ADD cacert.pem /etc/ssl/certs/ca-certificates.crt
 
-CMD ["/toybox", "shell"]
+CMD ["/usr/bin/sh"]
