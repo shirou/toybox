@@ -95,11 +95,11 @@ func uniq(in io.Reader, out io.Writer, opt *Option) error {
 			isRepeated = last == s.Text()
 		}
 
-		if !isRepeated {
+		if isRepeated {
+			repetitions++
+		} else {
 			Print(last, repetitions, opt)
 			repetitions = 0
-		} else {
-			repetitions++
 		}
 	}
 	Print(last, repetitions, opt)
