@@ -59,7 +59,7 @@ Available commands
    sha256sum, completed, no
    sha512sum, completed, no
    true, completed, yes
-   uniq, not yet, no, `-c` is not implemented yet
+   uniq, completed, no
    rm, completed, no
    rmdir, completed, no
    which, completed, no

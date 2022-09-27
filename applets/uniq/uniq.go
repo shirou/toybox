@@ -109,6 +109,9 @@ func uniq(in io.Reader, out io.Writer, opt *Option) error {
 
 func Print(s string, repetitions int, opt *Option) {
 	if (repetitions == 0 && !opt.repeated) || (repetitions != 0 && !opt.unique) {
+		if opt.count {
+			fmt.Printf("      %d ", repetitions+1)
+		}
 		fmt.Println(s)
 	}
 }
