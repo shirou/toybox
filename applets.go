@@ -35,6 +35,7 @@ import (
 	"github.com/shirou/toybox/applets/sha256sum"
 	"github.com/shirou/toybox/applets/sha512sum"
 	"github.com/shirou/toybox/applets/sleep"
+	"github.com/shirou/toybox/applets/sort"
 	"github.com/shirou/toybox/applets/tr"
 	"github.com/shirou/toybox/applets/true"
 	"github.com/shirou/toybox/applets/uniq"
@@ -85,6 +86,7 @@ func init() {
 		"uuidgen":   uuidgen.Main,
 		"rm":        rm.Main,
 		"rmdir":     rmdir.Main,
+		"sort":      sort.Main,
 		"tr":        tr.Main,
 		"yes":       yes.Main,
 		"wc":        wc.Main,

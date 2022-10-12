@@ -81,40 +81,37 @@ func Main(stdout io.Writer, args []string) error {
 
 func uniq(in io.Reader, out io.Writer, opt *Option) error {
 	s := bufio.NewScanner(in)
-	var count int
-	var dup bool
+	var repetitions int
+	var isRepeated bool
 
 	// read first line as last line
 	s.Scan()
 	last := s.Text()
 
-	for s.Scan() {
+	for ; s.Scan(); last = s.Text() {
 		if opt.ignoreCase {
-			dup = strings.EqualFold(last, s.Text())
+			isRepeated = strings.EqualFold(last, s.Text())
 		} else {
-			dup = last == s.Text()
+			isRepeated = last == s.Text()
 		}
-		if dup {
-			if opt.repeated {
-				if opt.count {
-					fmt.Fprintf(out, "%-10d %s\n", count, last)
-				} else {
-					fmt.Fprintln(out, last)
-				}
-			}
+
+		if isRepeated {
+			repetitions++
 		} else {
-			if opt.unique {
-				if opt.count {
-					fmt.Fprintf(out, "%-10d %s\n", count, last)
-				} else {
-					fmt.Fprintln(out, last)
-				}
-			}
-			count = 0
+			Print(last, repetitions, opt)
+			repetitions = 0
 		}
-		count += 1
-		last = s.Text()
 	}
+	Print(last, repetitions, opt)
 
 	return nil
+}
+
+func Print(s string, repetitions int, opt *Option) {
+	if (repetitions == 0 && !opt.repeated) || (repetitions != 0 && !opt.unique) {
+		if opt.count {
+			fmt.Printf("% 7d ", repetitions+1)
+		}
+		fmt.Println(s)
+	}
 }

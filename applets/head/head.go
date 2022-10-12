@@ -28,8 +28,8 @@ func NewFlagSet() (*flag.FlagSet, *Option) {
 	var opt Option
 
 	ret.BoolVar(&opt.help, "help", false, "show this message")
-	ret.IntVar(&opt.lines, "n", 10, "The first number lines of each input file shall be copied to standard output.")
-	ret.Int64Var(&opt.bytes, "c", 0, "The first number bytes of each input file shall be copied to standard output.")
+	ret.IntVar(&opt.lines, "n", 10, "print the first N lines instead of the first 10; with the leading '-' print all but the last N lines of each file")
+	ret.Int64Var(&opt.bytes, "c", 0, "print the first N bytes of each file; with the leading '-', print all but the last N bytes of each file")
 	ret.BoolVar(&opt.quiet, "q", false, "not output file name")
 
 	return ret, &opt
@@ -71,9 +71,13 @@ func Main(stdout io.Writer, args []string) error {
 func head(w io.Writer, f *os.File, opt *Option) error {
 	if opt.bytes > 0 {
 		return bytesHead(w, f, opt.bytes)
+	} else if opt.bytes < 0 {
+		return negativeBytesHead(w, f, opt.bytes)
 	}
 	if opt.lines > 0 {
 		return linesHead(w, f, opt.lines)
+	} else if opt.lines < 0 {
+		return negativeLinesHead(w, f, opt.lines)
 	}
 
 	return nil
@@ -94,10 +98,63 @@ func linesHead(w io.Writer, f *os.File, n int) error {
 	return s.Err()
 }
 
+func negativeLinesHead(w io.Writer, f *os.File, n int) error {
+	n *= -1
+	lastNLines := make([]string, n)
+	pos := 0
+
+	s := bufio.NewScanner(f)
+	for count := 0; s.Scan(); count++ {
+		if count >= n {
+			if _, err := fmt.Fprintln(w, lastNLines[pos]); err != nil {
+				return err
+			}
+		}
+		lastNLines[pos] = s.Text()
+		pos++
+		if pos >= n {
+			pos %= n
+		}
+	}
+	return s.Err()
+}
+
 func bytesHead(w io.Writer, f *os.File, n int64) error {
 	lr := io.LimitReader(f, n)
 	if _, err := io.Copy(w, lr); err != nil {
 		return err
 	}
 	return nil
+}
+
+func negativeBytesHead(w io.Writer, f *os.File, n int64) error {
+	n *= -1
+	lastNBytes := make([]byte, n)
+	pos := int64(0)
+
+	r := bufio.NewReader(f)
+	bw := bufio.NewWriter(w)
+	defer bw.Flush()
+
+	for count := int64(0); ; count++ {
+		b, err := r.ReadByte()
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			return err
+		}
+
+		if count >= n {
+			if err := bw.WriteByte(lastNBytes[pos]); err != nil {
+				return err
+			}
+		}
+		lastNBytes[pos] = b
+		pos++
+		if pos >= n {
+			pos %= n
+		}
+	}
+	return bw.Flush()
 }
